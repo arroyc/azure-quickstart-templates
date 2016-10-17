@@ -20,19 +20,22 @@ Once the VM has been deployed, note down the IP generated in the Azure portal fo
 - If you are using Linux or Mac use Terminal to login to the VM with the username and password you supplied.
 
 ## Configure placehoder Jenkins jobs
-1. Once you are logged into the VM, run /opt/azure_jenkins_config/config_azure.sh. This script will guide you to set up the storage account needed for Azure Storage Jenkins plugin.
-   > Note 1: If the script doesn't exist, download it using below command.
+1. Once you are logged into the VM, make sure you have these two files: /opt/azure_jenkins_config/config_azure.sh and /opt/azure_jenkins_config/set_azure_credentials.sh
+    > If either of the scripts don't exist, download them using the below commands.
 
    ```bash
    sudo wget -O /opt/azure_jenkins_config/config_azure.sh "https://raw.githubusercontent.com/arroyc/azure-quickstart-templates/master/azure-jenkins/setup-scripts/config_azure.sh"
+   sudo wget -O /opt/azure_jenkins_config/set_azure_credentials.sh "https://raw.githubusercontent.com/arroyc/azure-quickstart-templates/master/azure-jenkins/setup-scripts/set_azure_credentials.sh"
    ```
-   > Note 2: You can always run /opt/azure_jenkins_config/clear_storage_config.sh to reset configurations of Azure Storage for Jenkins and then run #1 again.
 
-2. Login to your Azure account using the live id you used when creating your Azure subscription or with any valid user in your Azure subscription.
-3. Select the subscription you want to use if you have more than one.
-4. Select the storage account you want to use if you have more than one.
-5. Select the destination container you will upload files to if you have more than one.
-6. Select a subscription for setting up service principal. Remember the returned subscription ID, client ID, client secret and OAuth 2.0 Token Endpoint. You'll need them for Azure slave plugin configuration.
+2. Run /opt/azure_jenkins_config/config_azure.sh. This script will guide you to set up the storage account needed for Azure Storage Jenkins plugin.
+   > Note : You can always run /opt/azure_jenkins_config/clear_storage_config.sh to reset configurations of Azure Storage for Jenkins and then run #2 again.
+
+3. Login to your Azure account using the live id you used when creating your Azure subscription or with any valid user in your Azure subscription.
+4. Select the subscription you want to use if you have more than one.
+5. Select the storage account you want to use if you have more than one.
+6. Select the destination container you will upload files to if you have more than one.
+7. Run /opt/azure_jenkins_config/set_azure_credentials.sh. This script will guide you to set up a service principal. Remember the returned subscription ID, client ID, client secret and OAuth 2.0 Token Endpoint. You'll need them for Azure slave plugin configuration.
 
 ## Configure [Azure slave plugin](https://github.com/jenkinsci/azure-slave-plugin/tree/ARM-dev) : Azure profile configuration
 1. Within the Jenkins dashboard, click Manage Jenkins --> Configure System --> Scroll to the bottom of the page
