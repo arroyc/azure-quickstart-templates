@@ -24,7 +24,7 @@ echo "hpsr=new hudson.security.HudsonPrivateSecurityRealm(false); hpsr.createAcc
 #enable secure jenkins secure config
 sudo mv /var/lib/jenkins/config.xml /var/lib/jenkins/config.xml.bak
 sudo wget -O /var/lib/jenkins/config.xml https://arroycsafestorage.blob.core.windows.net/testsafe/config.xml
-restart jenkins
+#restart jenkins
 
 sudo service jenkins restart
 
