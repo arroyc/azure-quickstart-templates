@@ -1,18 +1,21 @@
 #!/bin/bash
 
-CURRENT_USER=$(whoami)
 SETUP_SCRIPTS_LOCATION="/opt/azure_jenkins_config/"
 CONFIG_AZURE_SCRIPT="config_azure.sh"
 CLEAN_STORAGE_SCRIPT="clear_storage_config.sh"
-SOURCE_URI="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/azure-jenkins/setup-scripts/"
+CREATE_STORAGE_SCRIPT="config_azure_jenkins_storage.sh"
+CREATE_SERVICE_PRINCIPAL_SCRIPT="create_service_principal.sh"
+SOURCE_URI="https://raw.githubusercontent.com/arroyc/azure-quickstart-templates/fixbugimagetesting/azure-jenkins/setup-scripts/"
 JENKINS_USER="/var/lib/jenkins/users/"
 JENKINS_HOME="/var/lib/jenkins/"
 JENKINS_CONFIG="config.xml"
 ADMINUSER=$1
 ADMINPWD=$2
+
 #download jenkins-cli and secured jenkins config to create new user
 wget -O /opt/jenkins-cli.jar http://localhost:8080/jnlpJars/jenkins-cli.jar
 chmod +x /opt/jenkins-cli.jar
+
 #delete any previous user if there is any
 if [ ! -d $JENKINS_USER ]
 then
@@ -25,7 +28,6 @@ echo "hpsr=new hudson.security.HudsonPrivateSecurityRealm(false); hpsr.createAcc
 sudo mv /var/lib/jenkins/config.xml /var/lib/jenkins/config.xml.bak
 sudo wget -O /var/lib/jenkins/config.xml https://arroycsafestorage.blob.core.windows.net/testsafe/config.xml
 #restart jenkins
-
 sudo service jenkins restart
 
 if [ ! -d "$SETUP_SCRIPTS_LOCATION" ]; then
@@ -40,11 +42,17 @@ sudo chmod +x $SETUP_SCRIPTS_LOCATION$CONFIG_AZURE_SCRIPT
 sudo wget -O $SETUP_SCRIPTS_LOCATION$CLEAN_STORAGE_SCRIPT $SOURCE_URI$CLEAN_STORAGE_SCRIPT
 sudo chmod +x $SETUP_SCRIPTS_LOCATION$CLEAN_STORAGE_SCRIPT
 
+# Download config_azure_jenkins_storage script
+sudo wget -O $SETUP_SCRIPTS_LOCATION$CREATE_STORAGE_SCRIPT $SOURCE_URI$CREATE_STORAGE_SCRIPT
+sudo chmod +x $SETUP_SCRIPTS_LOCATION$CREATE_STORAGE_SCRIPT
+
+# Download create_service_principal script
+sudo wget -O $SETUP_SCRIPTS_LOCATION$CREATE_SERVICE_PRINCIPAL_SCRIPT $SOURCE_URI$CREATE_SERVICE_PRINCIPAL_SCRIPT
+sudo chmod +x $SETUP_SCRIPTS_LOCATION$CREATE_SERVICE_PRINCIPAL_SCRIPT
+
 #delete any existing config script
-old_config_storage_file="/opt/config_storage.sh"
+old_config_storage_file="/opt/azure_jenkins_config/config_storage.sh"
 if [ -f $old_config_storage_file ]
 then
   sudo rm -f $old_config_storage_file
 fi
-
-exit 0
