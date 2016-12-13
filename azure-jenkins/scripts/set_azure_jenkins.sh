@@ -13,8 +13,8 @@ ADMINUSER=$1
 ADMINPWD=$2
 
 #download jenkins-cli and secured jenkins config to create new user
-wget -O /opt/jenkins-cli.jar http://localhost:8080/jnlpJars/jenkins-cli.jar
-chmod +x /opt/jenkins-cli.jar
+#wget -O /opt/jenkins-cli.jar http://localhost:8080/jnlpJars/jenkins-cli.jar
+#chmod +x /opt/jenkins-cli.jar
 
 #delete any previous user if there is any
 if [ ! -d $JENKINS_USER ]
@@ -23,17 +23,17 @@ then
 fi
 
 #enable anonymous admin and restart jenkins
-sudo mv /var/lib/jenkins/config.xml /var/lib/jenkins/config.xml.bak
-sudo wget -O /var/lib/jenkins/config.xml https://arroycsafestorage.blob.core.windows.net/testsafe/config_anonymous_admin.xml
+#sudo mv /var/lib/jenkins/config.xml /var/lib/jenkins/config.xml.bak
+#sudo wget -O /var/lib/jenkins/config.xml https://arroycsafestorage.blob.core.windows.net/testsafe/config_anonymous_admin.xml
 #sudo service jenkins restart
 
 #create adminuser and password
-echo "hpsr=new hudson.security.HudsonPrivateSecurityRealm(false); hpsr.createAccount('$ADMINUSER', '$ADMINPWD')" | sudo java -jar /opt/jenkins-cli.jar -s http://localhost:8080 groovy =
+#echo "hpsr=new hudson.security.HudsonPrivateSecurityRealm(false); hpsr.createAccount('$ADMINUSER', '$ADMINPWD')" | sudo java -jar /opt/jenkins-cli.jar -s http://localhost:8080 groovy =
 
 #enable secure jenkins secure config
-sudo mv /var/lib/jenkins/config.xml /var/lib/jenkins/config.xml.anonymous
+#sudo mv /var/lib/jenkins/config.xml /var/lib/jenkins/config.xml.anonymous
 #sudo wget -O /var/lib/jenkins/config.xml https://arroycsafestorage.blob.core.windows.net/testsafe/config.xml
-sudo mv /var/lib/jenkins/config.xml.bak /var/lib/jenkins/config.xml
+#sudo mv /var/lib/jenkins/config.xml.bak /var/lib/jenkins/config.xml
 
 #restart jenkins
 sudo service jenkins restart
